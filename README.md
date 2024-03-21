@@ -11,7 +11,7 @@ Outcome:
 Successfully guessing the correct word within the 10 attempts will lead to victory, accompanied by a congratulatory message.
 Failure to guess the word within the allotted attempts will result in defeat, and the Hangman character will meet his unfortunate demise.
 
-Team Members:
-Project Manager: Ritesh
-Developer: Sujal Garg
+Team Members = 
+Project Manager: Ritesh ,
+Developer: Sujal Garg ,
 Tester: Rohit
