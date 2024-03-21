@@ -7,3 +7,9 @@ If the alphabet of that word guessed is correct , the game will proceed further
 But if you guess the wrong alphabet of that word , it will again ask to guess the alphabet and will also be indicating the number of turns left  
 If you are successful in guessing the correct word in less than 10 attempts then , you will win this game with a winning note saying congratulations 
 But if you are not able to guess the word within 10 attempts , you will loose and hangman will die
+
+Team Members :
+
+Project Manager : Ritesh
+Developer : Sujal Garg
+Tester : Rohit 
