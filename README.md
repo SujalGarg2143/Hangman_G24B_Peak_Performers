@@ -10,6 +10,6 @@ But if you are not able to guess the word within 10 attempts , you will loose an
 
 Team Members :
 
-Project Manager : Ritesh
-Developer : Sujal Garg
+Project Manager : Ritesh ,
+Developer : Sujal Garg ,
 Tester : Rohit 
