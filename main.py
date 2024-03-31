@@ -97,9 +97,9 @@ def hangman():
                 print("You let a good man die.....")
                 print("The word which was supposed to be guessed was : " , word)
                 print("---------------")
-                print("       O__|   ")
-                print("      /|\      ")
-                print("      / \     ")
+                print("   DEAD     O__|   ")
+                print("           /|\      ")
+                print("           / \     ")
                 break
                 
 
