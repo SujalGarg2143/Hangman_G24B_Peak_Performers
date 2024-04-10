@@ -1,118 +1,126 @@
+import tkinter as tk
+from tkinter import messagebox
 import random
 
-def hangman():
-    list_of_questions = ['banana', 'elephant', 'computer', 'guitar', 'sunshine', 'chocolate', 'butterfly', 'universe', 'rainbow', 'pizza', 'octopus', 'telescope', 'library', 'adventure', 'cucumber', 'watermelon', 'dragonfly', 'umbrella', 'kangaroo', 'snowflake', 'bicycle', 'fireworks', 'telephone', 'mountains', 'backpack', 'calculator', 'pencil', 'giraffe', 'icecream', 'jellyfish', 'elephant', 'zebra', 'clock', 'rainbow', 'diamond', 'keyboard', 'dolphin', 'garden', 'snowman', 'rhinoceros', 'violin', 'robot', 'starfish', 'kangaroo', 'firetruck', 'telescope', 'pineapple', 'parrot', 'beehive', 'lemonade', 'scorpion', 'mosquito', 'motorcycle', 'telescope', 'coconut', 'sandwich', 'giraffe', 'birthday', 'bubble', 'caterpillar', 'starfruit', 'baseball', 'cupcake', 'fireworks', 'mosquito', 'apple', 'kangaroo', 'dragonfly', 'cupcake', 'scorpion', 'balloon', 'firefly', 'cookie', 'paintbrush', 'seashell', 'cupboard', 'hotdog', 'jellyfish', 'lemonade', 'pineapple', 'dolphin', 'keyboard', 'umbrella', 'bicycle', 'tomato', 'sandwich', 'rhinoceros', 'firetruck', 'calculator', 'moonlight', 'library', 'telescope', 'octopus', 'watermelon', 'dragonfly', 'backpack', 'icecream', 'seashell', 'rainbow', 'elephant', 'starfish', 'guitar', 'jellybean', 'buttercup', 'caterpillar', 'waterfall', 'hummingbird', 'raspberry', 'bubblegum', 'crocodile', 'pinecone', 'sunshine', 'snowflake', 'ladybug', 'cucumber', 'butterflies', 'snowman', 'basketball', 'paperclip', 'firecracker', 'watermelon', 'telephone', 'clockwork', 'headphones', 'pancakes', 'hamburger', 'lighthouse', 'toothbrush', 'headphones', 'crocodile', 'honeycomb', 'earthquake', 'bubblewrap', 'kangaroo', 'grasshopper', 'pineapple', 'firefighter', 'snowstorm', 'jellyfish', 'cucumber', 'lollipop', 'spaceship', 'firefighter', 'iceberg', 'fireworks', 'paperplane', 'starfruit', 'saxophone', 'snowboard', 'cupboard', 'pancakes', 'moonlight', 'seashell', 'caterpillar', 'paintbrush', 'umbrella', 'backpack', 'waterfall', 'butterflies', 'basketball', 'raspberry', 'ladybug', 'firecracker', 'telephone', 'crocodile', 'toothbrush', 'paperclip', 'hamburger', 'pinecone', 'lighthouse', 'headphones', 'pancakes', 'earthquake', 'jellyfish', 'watermelon', 'firefighter', 'jellybean', 'iceberg', 'spaceship', 'lollipop', 'fireworks', 'cupboard', 'saxophone', 'moonlight', 'paperplane', 'snowstorm', 'starfruit', 'snowboard', 'grasshopper', 'honeycomb', 'bubblewrap', 'firetruck', 'pencil', 'birthday', 'hotdog', 'lemonade', 'calculator', 'cookie', 'paintbrush', 'sandwich']
-    word = random.choice(list_of_questions)
-    turns = 10
-    guess_made = ''
-    valid_enteries = set('abcdefghijklmnopqrstuvwxyz')  #user can only enter an aplhabet and that only one time only ...
-    
-    while len(word)>0:
-        main_word = ""
+#list of words
+words = ["Banana","Elephant","Computer","Universe","Chocolate","Rainbow","Guitar","Mountain","Oxygen","Balloon","Library","Butterfly","Sunshine","Adventure","Diamond","Symphony","Fireworks","Kangaroo","Elephant","Telephone","Umbrella","Watermelon","Telescope","Penguin","Dragonfly","Strawberry","Parrot","Hurricane","Lighthouse","Basketball","Firecracker","Caterpillar","Bubblegum","Lightning","Waterfall","Volleyball","Bubble","Coconut","Spider","Helicopter","Octopus","Pineapple","Telephone","Adventure","Lollipop","Strawberry","Lemonade","Kangaroo","Butterfly","Library","Snowflake","Dragonfly","Honeybee","Jellyfish","Marshmallow","Sunflower","Campfire","Crocodile","Pinecone","Tornado","Snowball","Seashell","Blueberry","Pineapple","Popcorn","Cupcake","Rainbow","Sausage","Spaceship","Turtle","Coconut","Snowman","Firefly","Cucumber","Scarecrow","Lemonade","Mosquito","Pancake","Rainbow","Starfish","Buttercup","Bubblegum","Watermelon","Popcorn","Strawberry","Snowflake","Hamburger","Waterfall","Fireworks","Snowman","Dragonfly","Caterpillar","Pineapple","Sunflower","Butterflies","Telephone","Telescope","Basketball","Pinecone","Campfire"]
 
-        for letter in word:
-            if letter in guess_made:
-                main_word = main_word + letter
-            else:
-                main_word = main_word + "_ "
+#intialize variables 
+word_to_guess = random.choice(words)
+guessed_letters = []
+attempts = 6
 
-        if main_word == word:        #if word guess is correct break the loop with congo message
-            print(main_word)
-            print("Congratulations , You Won !!")
-            break
+#create a window
+window = tk.Tk()
+window.title("Hangman Game Peak Performers")
 
+#function to check if game is over 
+def is_game_over():
+    return check_win() or check_loss()
 
-        print("Guess the word" , main_word)
-        guess = input()
+#function to check if player has won
+def check_win():
+    return all(letter in guessed_letters for letter in word_to_guess)
 
-        if guess in valid_enteries:   #used to check if guess made is from valid enteries or not 
-            guess_made = guess_made + guess  #if guess is valid it will store guess in guess_made
+#function to check if player has lost 
+def check_loss():
+    return attempts == 0
+
+#function to handle a letter guess
+def guess_letter():
+    global attempts
+    letter = letter_entry.get().lower()
+    if letter.isalpha() and len(letter) == 1:
+        if letter in guessed_letters:
+            messagebox.showinfo("Hangman" , f"You've already guessed '{letter}")
+        elif letter in word_to_guess:
+            guessed_letters.append(letter)
+            update_word_display()
+            if check_win():
+                messagebox.showinfo("Hangman" , "Congratulation! You Win!")
+                reset_game()
         else:
-            print("Enter the valid characters")
-            guess = input()
-        
+            guessed_letters.append(letter)
+            attempts -= 1
+            update_attempts_display()
+            draw_hangman()
+            if check_loss():
+                 messagebox.showinfo("Hangman" , "You lose! You let a good man die , The word was: " + word_to_guess)
+                 reset_game()
+        letter_entry.delete(0 , tk.END) #it clears the input field
+    else:
+        messagebox.showinfo("Hangman" , "Please make valid entry.")
 
-        if guess not in word:
-            turns = turns -1
+#function to reset the game 
+def reset_game():
+    global word_to_guess , guessed_letters , attempts
+    word_to_guess = random.choice(words)
+    guessed_letters = []
+    attempts = 6
+    update_word_display()
+    update_attempts_display()
+    draw_hangman()
 
-            if turns == 9:
-                print("9 turns left !")
-                print("---------------")
-            
-            if turns == 8:
-                print("8 turns left !")
-                print("---------------")
-                print("       O      ")
-
-            if turns == 7:
-                print("7 turns left !")
-                print("---------------")
-                print("       O      ")
-                print("       |      ")
-
-            if turns == 6:
-                print("6 turns left !")
-                print("---------------")
-                print("       O      ")
-                print("       |      ")
-                print("      /       ")
-
-            if turns == 5:
-                print("5 turns left !")
-                print("---------------")
-                print("       O      ")
-                print("       |      ")
-                print("      / \     ")
-
-            if turns == 4:
-                print("4 turns left !")
-                print("---------------")
-                print("      \O      ")
-                print("       |      ")
-                print("      / \     ")
-
-            if turns == 3:
-                print("3 turns left !")
-                print("---------------")
-                print("      \O/      ")
-                print("       |      ")
-                print("      / \     ")
-
-            if turns == 2:
-                print("2 turns left !")
-                print("---------------")
-                print("      \O/  |   ")
-                print("       |      ")
-                print("      / \     ")
-
-            if turns == 1:
-                print("Only 1 turn left !! hangman on his last breath")
-                print("---------------")
-                print("      \O/__|   ")
-                print("       |      ")
-                print("      / \     ")
-                
-            if turns == 0:
-                print("You loose")
-                print("You let a good man die.....")
-                print("The word which was supposed to be guessed was : " , word)
-                print("---------------")
-                print("       O__|   ")
-                print("      /|\      ")
-                print("      / \     ")
-                break
-                
+#function to update the word display
+def update_word_display():
+    display_word = ""
+    for letter in word_to_guess:
+        if letter in guessed_letters:
+            display_word += letter
+        else:
+            display_word += "_"
+        display_word += " "
+    word_label.config(text = display_word)
 
 
+#function to update the attempts display
+def update_attempts_display():
+    attempts_label.config(text = f"Attempts left: {attempts}")
 
 
+#function to draw hangman figure
+def draw_hangman():
+    canvas.delete("hangman")
+
+    if attempts < 6:
+        canvas.create_oval(125, 125, 175, 175, width=4, tags="hangman")  #head
+    if attempts < 5:
+        canvas.create_line(150, 175, 150, 225, width=4, tags="hangman") #body
+    if attempts < 4:
+        canvas.create_line(150, 200, 125, 175, width=4, tags="hangman")  #left am
+    if attempts < 3:
+        canvas.create_line(150, 200, 175, 175, width=4, tags="hangman")  #right arm
+    if attempts < 2:
+        canvas.create_line(150, 225, 125, 250, width=4, tags="hangman")  #left leg
+    if attempts < 1:
+        canvas.create_line(150, 225, 175, 250, width=4, tags="hangman") #right leg
 
 
-name = input("Enter Your Name : ")
-print("WELCOME",name,"!")
-print("---------------")
-print("Try to guess a word in less than 10 attempts \n")
-print('''Main Instruction : 
-Kindly enter all aplhabets in lowercase \n''')
+#create gui elements
+word_label = tk.Label(window , text="" , font=("Arial", 24))
+attempts_label = tk.Label(window, text="", font=("Arial", 16))
+letter_entry = tk.Entry(window, width=5, font=("Arial", 16))
+guess_button = tk.Button(window, text="Guess", command=guess_letter)
+reset_button = tk.Button(window, text="Reset", command=reset_game)
+canvas = tk.Canvas(window, width=300, height=300)
+canvas.create_line(50, 250, 250, 250, width=4) #baseline
+canvas.create_line(200, 250, 200, 100, width=4) #post
+canvas.create_line(100, 100, 200, 100, width=4)  #beam
+canvas.create_line(150, 100, 150, 120, width=4)  #beam
+canvas.pack()
 
-hangman()
+#pack gui elements
+word_label.pack()
+attempts_label.pack()
+letter_entry.pack()
+guess_button.pack()
+reset_button.pack()
+
+#update initial displays
+update_word_display()
+update_attempts_display()
+draw_hangman()
+
+#run application
+window.mainloop()
+
